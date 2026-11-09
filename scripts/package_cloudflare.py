@@ -33,7 +33,8 @@ for p in site.rglob('*'):
   text=p.read_text(encoding='utf-8')
   text=re.sub(r'<script[^>]+src="https://www.googletagmanager.com/gtag/js[^>]*></script>','',text)
   text=re.sub(r'<script>\s*window.dataLayer.*?</script>','',text,flags=re.S)
-  text=re.sub(r'((?:href|value)="[^"\s]*)\.html(?=["#?])',r'\1',text)
+  # Only this site's own URLs lose .html; external links (for example TCEQ pages) must keep it.
+  text=re.sub(r'((?:href|value)="(?:/|https://septicpumpingdayton\.com/)[^"\s]*)\.html(?=["#?])',r'\1',text)
   text=text.replace('The website is hosted on GitHub Pages.','The website is hosted on Cloudflare Pages. Its source code is maintained on GitHub.')
   text=text.replace('Provider notices:','Provider notices: <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare privacy</a>,')
   text=text.replace('</head>','<script>if(location.hostname.endsWith(".pages.dev")){document.querySelector(\'meta[name="robots"]\').content="noindex,nofollow";}</script><script src="/assets/analytics.js" defer></script>\n</head>')
